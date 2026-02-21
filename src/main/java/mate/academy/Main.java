@@ -21,28 +21,27 @@ public class Main {
         final MovieSessionService movieSessionService =
                 (MovieSessionService) injector.getInstance(MovieSessionService.class);
 
-        Movie fastAndFurious = new Movie("Fast and Furious");
-        fastAndFurious.setDescription("An action film about street racing.");
-        movieService.add(fastAndFurious);
-        System.out.println("Movie from DB: " + movieService.get(fastAndFurious.getId()));
+        Movie movie = new Movie("Fast and Furious");
+        movie.setDescription("An action film about street racing.");
+        movieService.add(movie);
+        System.out.println(movieService.get(movie.getId()));
+        movieService.getAll().forEach(System.out::println);
 
-        CinemaHall imaxHall = new CinemaHall();
-        imaxHall.setCapacity(100);
-        imaxHall.setDescription("IMAX");
-        cinemaHallService.add(imaxHall);
-        System.out.println("Cinema Hall from DB: " + cinemaHallService.get(imaxHall.getId()));
+        CinemaHall hall = new CinemaHall();
+        hall.setCapacity(100);
+        hall.setDescription("IMAX");
+        cinemaHallService.add(hall);
+        System.out.println(cinemaHallService.get(hall.getId()));
+        cinemaHallService.getAll().forEach(System.out::println);
 
         MovieSession session = new MovieSession();
-        session.setMovie(fastAndFurious);
-        session.setCinemaHall(imaxHall);
-        session.setShowTime(LocalDateTime.now().withHour(20).withMinute(0));
+        session.setMovie(movie);
+        session.setCinemaHall(hall);
+        session.setShowTime(LocalDateTime.now());
         movieSessionService.add(session);
+        System.out.println(movieSessionService.get(session.getId()));
 
-        System.out.println("Available sessions for today:");
-        movieSessionService.findAvailableSessions(fastAndFurious.getId(), LocalDate.now())
+        movieSessionService.findAvailableSessions(movie.getId(), LocalDate.now())
                 .forEach(System.out::println);
-
-        System.out.println("All movies:");
-        movieService.getAll().forEach(System.out::println);
     }
 }
