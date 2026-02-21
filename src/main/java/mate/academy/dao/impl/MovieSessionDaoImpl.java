@@ -1,7 +1,7 @@
 package mate.academy.dao.impl;
 
-import java.time.LocalDate; // Dodaj ten import
-import java.time.LocalTime; // Dodaj ten import
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import mate.academy.dao.MovieSessionDao;
@@ -15,7 +15,6 @@ import org.hibernate.query.Query;
 
 @Dao
 public class MovieSessionDaoImpl implements MovieSessionDao {
-
     @Override
     public MovieSession add(MovieSession movieSession) {
         Transaction transaction = null;
@@ -30,7 +29,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't insert movie session " + movieSession, e);
+            throw new DataProcessingException("Can't insert session " + movieSession, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -43,23 +42,23 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return Optional.ofNullable(session.get(MovieSession.class, id));
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get a movie session by id " + id, e);
+            throw new DataProcessingException("Can't get session by id " + id, e);
         }
     }
 
     @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<MovieSession> getSessionsQuery = session.createQuery(
+            Query<MovieSession> query = session.createQuery(
                     "FROM MovieSession ms "
                             + "WHERE ms.movie.id = :movieId "
                             + "AND ms.showTime BETWEEN :startTime AND :endTime", MovieSession.class);
-            getSessionsQuery.setParameter("movieId", movieId);
-            getSessionsQuery.setParameter("startTime", date.atStartOfDay());
-            getSessionsQuery.setParameter("endTime", date.atTime(LocalTime.MAX));
-            return getSessionsQuery.getResultList();
+            query.setParameter("movieId", movieId);
+            query.setParameter("startTime", date.atStartOfDay());
+            query.setParameter("endTime", date.atTime(LocalTime.MAX));
+            return query.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't find available sessions for movie id: "
+            throw new DataProcessingException("Session lookup failed for movie id: "
                     + movieId + " on date: " + date, e);
         }
     }
