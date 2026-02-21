@@ -1,7 +1,7 @@
 package mate.academy.dao.impl;
 
-import java.util.Optional;
 import java.util.List;
+import java.util.Optional;
 import mate.academy.dao.CinemaHallDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
@@ -28,7 +28,7 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
             transaction.commit();
 
             return cinemaHall;
-        }catch (Exception e) {
+        } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }

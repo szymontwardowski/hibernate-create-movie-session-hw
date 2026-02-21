@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import mate.academy.dao.MovieSessionDao;
 import mate.academy.exception.DataProcessingException;
-import mate.academy.lib.Dao; // Pamiętaj o adnotacji!
+import mate.academy.lib.Dao;
 import mate.academy.model.MovieSession;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
@@ -47,14 +47,13 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
         }
     }
 
-    // Metoda findAvailableSessions MUSI być wewnątrz tej klamry
     @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<MovieSession> getSessionsQuery = session.createQuery(
-                    "FROM MovieSession ms " +
-                            "WHERE ms.movie.id = :movieId " +
-                            "AND ms.showTime BETWEEN :startTime AND :endTime", MovieSession.class);
+                    "FROM MovieSession ms "
+                            + "WHERE ms.movie.id = :movieId "
+                            + "AND ms.showTime BETWEEN :startTime AND :endTime", MovieSession.class);
             getSessionsQuery.setParameter("movieId", movieId);
             getSessionsQuery.setParameter("startTime", date.atStartOfDay());
             getSessionsQuery.setParameter("endTime", date.atTime(LocalTime.MAX));
