@@ -1,7 +1,6 @@
 package mate.academy.service;
 
 import mate.academy.model.CinemaHall;
-
 import java.util.List;
 
 public interface CinemaHallService {

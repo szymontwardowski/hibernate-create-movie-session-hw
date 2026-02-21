@@ -1,14 +1,14 @@
 package mate.academy.dao.impl;
 
+import java.util.Optional;
+import java.util.List;
 import mate.academy.dao.CinemaHallDao;
 import mate.academy.exception.DataProcessingException;
-import mate.academy.lib.Dao; // Adnotacja od Mate Academy
+import mate.academy.lib.Dao;
 import mate.academy.model.CinemaHall;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import java.util.Optional;
-import java.util.List;
 
 @Dao
 public class CinemaHallDaoImpl implements CinemaHallDao {

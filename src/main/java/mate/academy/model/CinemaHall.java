@@ -6,23 +6,20 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-@Entity // 1. Mówimy Hibernate: "Zrób z tej klasy tabelę w bazie danych"
-@Table(name = "cinema_halls") // 2. Opcjonalne: Ustalamy własną nazwę tabeli
+@Entity
+@Table(name = "cinema_halls")
 public class CinemaHall {
 
-    @Id // 3. To pole będzie kluczem głównym (unikalnym identyfikatorem)
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // 4. Baza danych sama będzie nadawać numery ID (1, 2, 3...)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int capacity; // Pojemność sali (ile osób pomieści)
+    private int capacity;
 
-    private String description; // Opis sali (np. "Sala IMAX", "Złota sala")
-
-    // 5. Hibernate WYMAGA pustego konstruktora, żeby mógł stworzyć obiekt
+    private String description;
     public CinemaHall() {
     }
 
-    // 6. Gettery i Settery (używane przez Hibernate do odczytu i zapisu danych)
     public Long getId() {
         return id;
     }
@@ -47,13 +44,12 @@ public class CinemaHall {
         this.description = description;
     }
 
-    // 7. ToString - przydaje się do testowania w Main, żeby widzieć co jest w środku
     @Override
     public String toString() {
-        return "CinemaHall{" +
-                "id=" + id +
-                ", capacity=" + capacity +
-                ", description='" + description + '\'' +
-                '}';
+        return "CinemaHall{"
+                + "id=" + id
+                + ", capacity=" + capacity
+                + ", description='" + description + '\''
+                + '}';
     }
 }
